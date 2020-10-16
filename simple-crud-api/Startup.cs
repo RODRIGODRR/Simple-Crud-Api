@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using simple_crud_api.Config;
+using simple_crud_api.Data;
 
 namespace simple_crud_api
 {
@@ -20,7 +21,11 @@ namespace simple_crud_api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // requires using Microsoft.Extensions.Options
+            // configs para sql server (entity framework)
+            services.AddDbContext<DataContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("connectionString")));
+            services.AddScoped<DataContext, DataContext>();
+
+            // configs para mongodb (MongoDB.Driver)
             services.Configure<MongoDBSettings>(
                 Configuration.GetSection(nameof(MongoDBSettings)));
 

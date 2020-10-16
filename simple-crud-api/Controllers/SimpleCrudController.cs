@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using simple_crud_api.Config;
+using simple_crud_api.Data;
 using simple_crud_api.Models;
-using simple_crud_api.Repositories.MongoDB;
+using simple_crud_api.Repositories;
 using System;
 
 namespace simple_crud_api.Controllers
@@ -9,20 +10,36 @@ namespace simple_crud_api.Controllers
     [ApiController]    
     public class SimpleCrudController : ControllerBase
     {        
-        public IUserRepository _repository;
+        public IUserRepository _repositoryMongo;
+        public IUserRepository _repositoryMSSql;
 
-        public SimpleCrudController(IMongoDBSettings settings)
+        public SimpleCrudController(IMongoDBSettings settings, DataContext context)
         {
-            _repository = new UserRepository(settings);
+            _repositoryMongo = new Repositories.MongoDB.UserRepository(settings);
+            _repositoryMSSql = new Repositories.MSSql.UserRepository(context);
         }
 
         [HttpGet]
-        [Route("v1/simpleCrud")]
-        public ActionResult<object> Get()
+        [Route("v1/simpleCrud/{repositoryName}")]
+        public ActionResult<object> Get(string repositoryName)
         {
             try
             {
-                var result = _repository.GetAll();
+                object result;
+
+                switch (repositoryName)
+                {
+                    case "mongo":
+                        result = _repositoryMongo.GetAll();
+                        break;
+                    case "mssql":
+                        result = _repositoryMSSql.GetAll();
+                        break;
+                    default:
+                        result = null;
+                        break;
+                }
+
                 return Ok(result);
             }
             catch (Exception e)
@@ -32,12 +49,26 @@ namespace simple_crud_api.Controllers
         }
 
         [HttpGet]
-        [Route("v1/simpleCrud/{id}")]
-        public ActionResult<object> GetById(string id)
+        [Route("v1/simpleCrud/{repositoryName}/{id}")]
+        public ActionResult<object> GetById(string repositoryName, string id)
         {
             try
             {
-                var result = _repository.GetById(id);
+                object result;
+
+                switch (repositoryName)
+                {
+                    case "mongo":
+                        result = _repositoryMongo.GetById(id);
+                        break;
+                    case "mssql":
+                        result = _repositoryMSSql.GetById(id);
+                        break;
+                    default:
+                        result = null;
+                        break;
+                }
+                                
                 return Ok(result);
             }
             catch (Exception e)
@@ -47,12 +78,26 @@ namespace simple_crud_api.Controllers
         }
 
         [HttpPost]
-        [Route("v1/simpleCrud")]
-        public ActionResult<object> Post([FromBody] User obj)
+        [Route("v1/simpleCrud/{repositoryName}")]
+        public ActionResult<object> Post(string repositoryName, [FromBody] User obj)
         {
             try
             {
-                var result = _repository.Post(obj);
+                object result;
+
+                switch (repositoryName)
+                {
+                    case "mongo":
+                        result = _repositoryMongo.Create(obj);
+                        break;
+                    case "mssql":
+                        result = _repositoryMSSql.Create(obj);
+                        break;
+                    default:
+                        result = null;
+                        break;
+                }
+
                 return Ok(result);
             }
             catch (Exception e)
@@ -62,15 +107,28 @@ namespace simple_crud_api.Controllers
         }
 
         [HttpPut]
-        [Route("v1/simpleCrud/{id}")]
-        public ActionResult<object> Put(string id, [FromBody] User obj)
+        [Route("v1/simpleCrud/{repositoryName}/{id}")]
+        public ActionResult<object> Put(string repositoryName, string id, [FromBody] User obj)
         {
             try
             {
-                // aqui o ideal seria ler as propriedades enviadas no request e atualizar apenas as que se alteraram... TODO
                 obj.Id = id;
 
-                var result = _repository.Update(id, obj);
+                object result;
+
+                switch (repositoryName)
+                {
+                    case "mongo":
+                        result = _repositoryMongo.Update(id, obj);
+                        break;
+                    case "mssql":
+                        result = _repositoryMSSql.Update(id, obj);
+                        break;
+                    default:
+                        result = null;
+                        break;
+                }
+                                
                 return Ok(result);
             }
             catch (Exception e)
@@ -80,12 +138,26 @@ namespace simple_crud_api.Controllers
         }
 
         [HttpDelete]
-        [Route("v1/simpleCrud/{id}")]
-        public ActionResult<object> Delete(string id)
+        [Route("v1/simpleCrud/{repositoryName}/{id}")]
+        public ActionResult<object> Delete(string repositoryName, string id)
         {
             try
             {
-                var result = _repository.Delete(id);
+                object result;
+
+                switch (repositoryName)
+                {
+                    case "mongo":
+                        result = _repositoryMongo.Delete(id);
+                        break;
+                    case "mssql":
+                        result = _repositoryMSSql.Delete(id);
+                        break;
+                    default:
+                        result = null;
+                        break;
+                }
+
                 return Ok(result);
             }
             catch (Exception e)

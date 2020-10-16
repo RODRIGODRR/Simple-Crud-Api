@@ -5,15 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace simple_crud_api.Repositories.MongoDB
-{
-    public interface IUserRepository
-    {
-        IList<User> GetAll();
-        User GetById(string id);
-        User Post(User obj);
-        User Update(string id, User obj);
-        bool Delete(string id);
-    }
+{    
     public class UserRepository : IUserRepository
     {
         private readonly IMongoCollection<User> _users;
@@ -44,7 +36,7 @@ namespace simple_crud_api.Repositories.MongoDB
             return result;
         }
 
-        public User Post(User obj)
+        public User Create(User obj)
         {
             _users.InsertOne(obj);
             return obj;
