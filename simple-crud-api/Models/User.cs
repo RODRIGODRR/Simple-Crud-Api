@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace simple_crud_api.Models
 {
@@ -15,5 +16,6 @@ namespace simple_crud_api.Models
         
         [BsonElement("email")]
         public string Email { get; set; }
+        public DateTime? DtaCriacao { get; set; }
     }
 }

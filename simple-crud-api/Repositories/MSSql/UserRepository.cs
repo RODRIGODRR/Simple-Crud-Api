@@ -36,6 +36,7 @@ namespace simple_crud_api.Repositories.MSSql
         public User Create(User obj)
         {            
             obj.Id = Guid.NewGuid().ToString().Substring(0, 24);
+            obj.DtaCriacao = DateTime.Now;
 
             _context.Add(obj);
             _context.SaveChanges();

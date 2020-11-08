@@ -16,6 +16,7 @@ namespace simple_crud_api.Data
             mBuilder.Entity<User>().Property(e => e.Id).HasMaxLength(24).HasColumnType("varchar(24)");
             mBuilder.Entity<User>().Property(e => e.Name).HasMaxLength(100).HasColumnType("varchar(100)");
             mBuilder.Entity<User>().Property(e => e.Email).HasMaxLength(50).HasColumnType("varchar(50)");
+            mBuilder.Entity<User>().Property(e => e.DtaCriacao).HasColumnType("datetime");
         }
     }
 }

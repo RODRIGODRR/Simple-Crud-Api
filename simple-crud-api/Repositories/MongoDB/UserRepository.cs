@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using simple_crud_api.Config;
 using simple_crud_api.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,6 +39,8 @@ namespace simple_crud_api.Repositories.MongoDB
 
         public User Create(User obj)
         {
+            obj.DtaCriacao = DateTime.Now;
+
             _users.InsertOne(obj);
             return obj;
         }

@@ -4,6 +4,7 @@ using simple_crud_api.Data;
 using simple_crud_api.Models;
 using simple_crud_api.Repositories;
 using System;
+using System.Linq;
 
 namespace simple_crud_api.Controllers
 {
