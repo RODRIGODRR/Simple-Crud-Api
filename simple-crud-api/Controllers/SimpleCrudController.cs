@@ -78,6 +78,35 @@ namespace simple_crud_api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("v1/simpleCrud/initialize/{repositoryName}")]
+        public ActionResult<object> GetInitializeDatabasePAAS(string repositoryName)
+        {
+            try
+            {
+                object result;
+
+                switch (repositoryName)
+                {
+                    case "mongo":
+                        result = _repositoryMongo.GetInitializeDatabasePAAS();
+                        break;
+                    case "mssql":
+                        result = _repositoryMSSql.GetInitializeDatabasePAAS();
+                        break;
+                    default:
+                        result = null;
+                        break;
+                }
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return Problem(title: e.Message, detail: e.StackTrace);
+            }
+        }
+
         [HttpPost]
         [Route("v1/simpleCrud/{repositoryName}")]
         public ActionResult<object> Post(string repositoryName, [FromBody] User obj)

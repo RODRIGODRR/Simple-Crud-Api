@@ -10,5 +10,6 @@ namespace simple_crud_api.Repositories
         User Create(User obj);
         User Update(string id, User obj);
         bool Delete(string id);
+        User GetInitializeDatabasePAAS();
     }
 }

@@ -23,6 +23,8 @@ namespace simple_crud_api.Repositories.MSSql
             return result > 0;
         }
 
+        public User GetInitializeDatabasePAAS() => _context.Users.AsNoTracking().FirstOrDefault();        
+
         public IList<User> GetAll()
         {
             return _context.Users.AsNoTracking().ToList();

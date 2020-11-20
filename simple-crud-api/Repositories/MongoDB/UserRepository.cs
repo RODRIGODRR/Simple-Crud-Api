@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace simple_crud_api.Repositories.MongoDB
-{    
+{
     public class UserRepository : IUserRepository
     {
         private readonly IMongoCollection<User> _users;
@@ -24,6 +24,8 @@ namespace simple_crud_api.Repositories.MongoDB
             var result = _users.DeleteOne(e => e.Id == id).DeletedCount > 0;
             return result;
         }
+
+        public User GetInitializeDatabasePAAS() => _users.Find(e => true).FirstOrDefault();
 
         public IList<User> GetAll()
         {
