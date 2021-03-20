@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>simple_crud_api</RootNamespace>
+    <UserSecretsId>e86b6fc6-7621-48f5-9c34-3d01b94d8e30</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
